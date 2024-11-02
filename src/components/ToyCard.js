@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 
-function ToyCard({toy, onDeleteToy}) {
+function ToyCard({toy, onDeleteToy, onAddLikes}) {
 
   const { id, name, image, likes } = toy
+  const [newLikes, setNewLikes] = useState(likes)
 
   function handleDeleteClick() {
     onDeleteToy(id)
+  }
+
+  function handleLikeClick(e) {
+    let toyObj = {
+      id: id,
+      likes: parseInt(e.target.value)+1
+    }
+    onAddLikes(toyObj)
+    setNewLikes(parseInt(e.target.value)+1)
   }
 
   return (
@@ -17,7 +27,7 @@ function ToyCard({toy, onDeleteToy}) {
         className="toy-avatar"
       />
       <p>{likes} Likes </p>
-      <button className="like-btn">Like {"<3"}</button>
+      <button className="like-btn" value={newLikes} onClick={handleLikeClick}>Like {newLikes}</button>
       <button className="del-btn" onClick={handleDeleteClick}>Donate to GoodWill</button>
     </div>
   );

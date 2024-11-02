@@ -43,6 +43,20 @@ function App() {
       .then(() => setToys(toys.filter(toy => toy.id !== toyId)))
   }
 
+  function addLikes(toyObj) {
+    fetch(`http://localhost:3001/toys/${toyObj.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        likes: toyObj.likes
+      }),
+    })
+      .then((r) => r.json())
+      .then((updatedItem) => console.log(updatedItem))
+  }
+
   return (
     <>
       <Header />
@@ -50,7 +64,7 @@ function App() {
       <div className="buttonContainer">
         <button onClick={handleClick}>Add a Toy</button>
       </div>
-      <ToyContainer toys={toys} onDeleteToy={deleteToy}/>
+      <ToyContainer toys={toys} onDeleteToy={deleteToy} onAddLikes={addLikes}/>
     </>
   );
 }
